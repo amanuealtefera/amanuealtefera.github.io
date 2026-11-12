@@ -102,7 +102,7 @@ const POSTS = [
     "What concerns me is the possibility that this cycle reflects repeated disappointment more than lasting support. Voting against the party in charge is understandable. But if the main reason to support one party is frustration with the other, how much confidence does either side actually deserve?",
     "Changing leaders is an essential part of democracy. Still, I do not think we should treat every reversal as proof that the system is working well. It can also be a warning that people keep asking for results and do not believe they are getting them. A victory gives politicians the responsibility to address voters’ concerns. It should not become permission to pursue every party priority while treating criticism as disloyalty.",
     "This is why I favor moving toward elections without formal political parties. Candidates should have to explain their own positions and defend their own records. Citizens should have more room to choose someone who represents their priorities without accepting an entire political package. That change would need to preserve people’s freedom to organize and disagree.",
-    "I also support overturning Citizens United, which struck down restrictions on independent corporate and union election spending. In my view, concentrated financial influence makes it even harder for ordinary voters to feel heard.",
+  ,
     "Americans should not have to keep bouncing between disappointment in red and disappointment in blue. If both parties want credit for listening to voters, they should be judged by what they deliver after the votes are counted."
   ] },
 ];
@@ -123,7 +123,7 @@ function home(){
   app.innerHTML = `
   <section class="hero">
     <h1>A Man’s<br>Thoughts</h1>
-    <p class="sub">Aman on politics, money, and people. A new post every week. Pick a topic below, or read everything.</p>
+    <p class="sub">Pick a topic below, or read everything.</p>
     <div class="tiles">
       ${TOPICS.map(t=>`<button class="tile" data-t="${t}" aria-pressed="false"><b>${NAMES[t]}</b><small>${n(t)} ${n(t)===1?"post":"posts"}</small></button>`).join("")}
     </div>
