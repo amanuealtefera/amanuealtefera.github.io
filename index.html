@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Amanueal Tefera’s Blog</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Newsreader:opsz,wght@6..72,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#000; --ink:#fff; --muted:#A3A3A3; --line:#3A3A3A;
+  --c-political:#3D6BFF; --c-economic:#FF3B3B; --c-social:#FFD60A;
+  --head:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;
+  --body:"Newsreader",Georgia,"Times New Roman",serif;
+  color-scheme:dark;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px);background:var(--bg)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:1.1rem;line-height:1.6}
+a{color:inherit}
+:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.political{--c:var(--c-political)} .economic{--c:var(--c-economic)} .social{--c:var(--c-social)}
+.wrap{max-width:820px;margin:0 auto;padding:0 22px}
+header{padding:26px 0 0;display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap}
+.brand{font-family:var(--head);font-weight:800;font-size:1.2rem;text-decoration:none;letter-spacing:-.01em}
+.tag{color:var(--muted);font-style:italic;font-size:.95rem}
+
+.hero{padding:48px 0 6px}
+h1{font-family:var(--head);font-weight:800;font-size:clamp(2.2rem,8vw,3.6rem);line-height:.98;letter-spacing:-.03em;margin:0 0 14px}
+.hero h1{font-size:clamp(2.6rem,9vw,4.4rem);line-height:.95;margin:0 0 18px}
+.sub{color:var(--muted);margin:0 0 30px;max-width:46ch}
+
+.tiles{display:flex;flex-direction:column;gap:10px}
+.tile{display:flex;justify-content:space-between;align-items:center;width:100%;text-align:left;background:#000;color:#fff;
+  border:2px solid #fff;border-radius:14px;padding:20px 22px;cursor:pointer;font:inherit;transition:background-color .2s,color .2s}
+.tile b{font-family:var(--head);font-weight:800;font-size:clamp(1.4rem,5vw,2rem);letter-spacing:-.02em;line-height:1}
+.tile small{font-size:1rem;color:var(--muted)}
+.tile:hover{background:#1a1a1a}
+.tile[aria-pressed="true"]{background:#fff;color:#000}
+.tile[aria-pressed="true"] small{color:#444}
+.status{margin:20px 0 0;color:var(--muted);font-size:1rem;min-height:1.6em}
+.status button{font:inherit;background:none;border:0;border-bottom:1px solid currentColor;color:#fff;cursor:pointer;padding:0}
+
+.list{margin:18px 0 80px;display:flex;flex-direction:column;gap:16px}
+.row{display:block;text-decoration:none;border:2.5px solid var(--c);border-radius:16px;padding:22px 24px}
+.row:hover{background:#111}
+.row:hover h2{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:5px}
+.top{display:flex;gap:14px;align-items:center;flex-wrap:wrap;color:var(--muted);font-size:.95rem}
+.row h2{font-family:var(--head);font-weight:800;font-size:clamp(1.3rem,3.6vw,1.8rem);line-height:1.15;letter-spacing:-.02em;margin:10px 0 6px}
+.row p{margin:0;color:var(--muted);max-width:58ch}
+.chip{display:inline-block;border:1.5px solid var(--c);color:var(--c);border-radius:999px;padding:0 12px;font-family:var(--head);font-weight:500;font-size:.85rem}
+.empty{padding:46px 0;color:var(--muted)}
+.empty b{font-family:var(--head);color:#fff;font-size:1.3rem;display:block;margin-bottom:4px}
+
+.back{display:inline-block;margin:34px 0 10px;font-family:var(--head);font-weight:500;text-decoration:none;border-bottom:2px solid #fff}
+article{max-width:62ch;margin:0 auto 90px;border:2.5px solid var(--c);border-radius:18px;padding:28px 26px}
+article h1{font-size:clamp(1.9rem,6vw,2.8rem);line-height:1.05;margin:14px 0 6px}
+article p{font-size:1.2rem;line-height:1.75;margin:0 0 1.2em}
+article h1+p{margin-top:1.4em}
+footer{padding:0 0 30px;color:var(--muted);font-size:.95rem}
+@media (max-width:620px){
+  .row{padding:18px 18px}.tile{padding:18px}article{padding:22px 18px}
+}
+@media (prefers-reduced-motion:reduce){.tile{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="brand" href="#" id="home"></a>
+    <span class="tag">New posts every week</span>
+  </header>
+  <main id="app"></main>
+  <footer id="foot"></footer>
+</div>
+
+<script>
+/* ============ EDIT THESE ============ */
+const SITE_NAME = "Amanueal Tefera’s Blog";
+
+/* Add each new weekly post at the top of this list. Copy this format:
+  { id:"my-first-post",          // letters, numbers, hyphens only
+    date:"2026-11-16",           // year-month-day
+    topic:"political",           // "political", "economic" or "social"
+    title:"Your title",
+    excerpt:"One sentence shown on the homepage.",
+    body:["First paragraph.","Second paragraph."] },
+*/
+const POSTS = [
+{ id:"political-ping-pong",
+  date:"2026-11-12",
+  topic:"political",
+  title:"American Voters Should Not Be a Political Ping-Pong Ball",
+  excerpt:"Voters keep bouncing between two parties, and it is worth asking why these are the only choices we depend on.",
+  body:[
+    "American politics feels like a game of ping-pong, with voters getting hit back and forth between two parties. People become frustrated with one side, give the other a chance, and then find themselves looking for change again. At some point, we should question why these are the choices we keep depending on.",
+    "In 2024, Donald Trump received approximately 77.3 million votes, or 49.8% of the popular vote, returning Republicans to the White House after four years under a Democratic president. Now, the 2026 midterms have brought another shift. An unofficial national tally updated November 10 puts Democratic House candidates at approximately 65.4 million votes, compared with 49.6 million for Republicans. Those congressional totals are still being counted and are not directly comparable to presidential results, but they show how sharply the political direction can change.",
+    "That does not mean millions of the same people suddenly switched sides. Different turnout, different candidates, and different priorities can change an election. It also would not be fair to dismiss Trump’s victory as a fluke. Whatever combination of reasons drove it, it happened. Voters gave Republicans an opportunity to govern, and two years later, the congressional vote has moved strongly toward Democrats.",
+    "What concerns me is the possibility that this cycle reflects repeated disappointment more than lasting support. Voting against the party in charge is understandable. But if the main reason to support one party is frustration with the other, how much confidence does either side actually deserve?",
+    "Changing leaders is an essential part of democracy. Still, I do not think we should treat every reversal as proof that the system is working well. It can also be a warning that people keep asking for results and do not believe they are getting them. A victory gives politicians the responsibility to address voters’ concerns. It should not become permission to pursue every party priority while treating criticism as disloyalty.",
+    "This is why I favor moving toward elections without formal political parties. Candidates should have to explain their own positions and defend their own records. Citizens should have more room to choose someone who represents their priorities without accepting an entire political package. That change would need to preserve people’s freedom to organize and disagree.",
+    "I also support overturning Citizens United, which struck down restrictions on independent corporate and union election spending. In my view, concentrated financial influence makes it even harder for ordinary voters to feel heard.",
+    "Americans should not have to keep bouncing between disappointment in red and disappointment in blue. If both parties want credit for listening to voters, they should be judged by what they deliver after the votes are counted."
+  ] },
+];
+/* ================================== */
+
+const TOPICS = ["political","economic","social"];   // top to bottom
+const NAMES = {political:"Political",economic:"Economic",social:"Social"};
+let current = null;
+const app = document.getElementById("app");
+const fmt = d => new Date(d+"T12:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
+
+document.title = SITE_NAME;
+document.getElementById("home").textContent = SITE_NAME;
+document.getElementById("foot").textContent = "© 2026 " + SITE_NAME;
+
+function home(){
+  const n = t => POSTS.filter(p=>p.topic===t).length;
+  app.innerHTML = `
+  <section class="hero">
+    <h1>A Man’s<br>Thoughts</h1>
+    <p class="sub">Aman on politics, money, and people. A new post every week. Pick a topic below, or read everything.</p>
+    <div class="tiles">
+      ${TOPICS.map(t=>`<button class="tile" data-t="${t}" aria-pressed="false"><b>${NAMES[t]}</b><small>${n(t)} ${n(t)===1?"post":"posts"}</small></button>`).join("")}
+    </div>
+    <p class="status" id="status" aria-live="polite"></p>
+  </section>
+  <section class="list" id="list"></section>`;
+  document.querySelectorAll(".tile").forEach(b=>b.addEventListener("click",()=>{
+    current = current===b.dataset.t ? null : b.dataset.t; paint();
+  }));
+  paint();
+}
+
+function paint(){
+  document.querySelectorAll(".tile").forEach(b=>b.setAttribute("aria-pressed",b.dataset.t===current));
+  const shown = POSTS.filter(p=>!current||p.topic===current).sort((a,b)=>b.date.localeCompare(a.date));
+  const st = document.getElementById("status");
+  st.innerHTML = current
+    ? `Showing ${NAMES[current].toLowerCase()} posts. <button id="clr">Show all</button>`
+    : (POSTS.length ? `Showing all ${POSTS.length} ${POSTS.length===1?"post":"posts"}, newest first.` : "");
+  const clr = document.getElementById("clr"); if(clr) clr.onclick=()=>{current=null;paint()};
+  document.getElementById("list").innerHTML = shown.length ? shown.map(p=>`
+    <a class="row ${p.topic}" href="#${p.id}">
+      <div class="top"><span class="chip">${NAMES[p.topic]}</span><span>${fmt(p.date)}</span></div>
+      <h2>${p.title}</h2><p>${p.excerpt}</p>
+    </a>`).join("") : `<div class="empty"><b>${current?"No "+NAMES[current].toLowerCase()+" posts yet.":"The first posts are on the way."}</b>Check back soon, new posts arrive every week.</div>`;
+}
+
+function read(p){
+  window.scrollTo(0,0);
+  app.innerHTML = `
+  <a class="back" href="#">Back to all posts</a>
+  <article class="${p.topic}">
+    <div class="top"><span class="chip">${NAMES[p.topic]}</span><span>${fmt(p.date)}</span></div>
+    <h1>${p.title}</h1>
+    ${p.body.map(t=>`<p>${t}</p>`).join("")}
+  </article>`;
+  document.title = p.title + " | " + SITE_NAME;
+}
+
+function route(){
+  const p = POSTS.find(x=>x.id===location.hash.slice(1));
+  document.title = SITE_NAME;
+  p ? read(p) : home();
+}
+window.addEventListener("hashchange",route);
+route();
+</script>
+</body>
+</html>
