@@ -129,7 +129,7 @@ function home(){
   const n = t => POSTS.filter(p=>p.topic===t).length;
   app.innerHTML = `
   <section class="hero">
-    <h1>Politics, money<br>and people.</h1>
+    
     <p class="sub">A new post every week on each of three topics. Pick one below, or read everything.</p>
     <div class="tiles">
       ${TOPICS.map(t=>`<button class="tile ${t}" data-t="${t}" aria-pressed="false"><b>${NAMES[t]}</b><small>${n(t)} ${n(t)===1?"post":"posts"}</small></button>`).join("")}
